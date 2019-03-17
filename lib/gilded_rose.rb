@@ -32,9 +32,9 @@ class GildedRose
     decrease_days_remaining
 
     if negative_days_remaining?
-      increase_quality(2)
+      increase_or_maximize_quality(2)
     else
-      increase_quality(1)
+      increase_or_maximize_quality(1)
     end
   end
 
@@ -42,9 +42,9 @@ class GildedRose
     decrease_days_remaining
 
     if negative_days_remaining?
-      decrease_quality(4)
+      decrease_or_minimize_quality(4)
     else
-      decrease_quality(2)
+      decrease_or_minimize_quality(2)
     end
   end
 
@@ -53,11 +53,11 @@ class GildedRose
 
     case days_remaining
     when 10..Float::INFINITY
-      increase_quality(1)
+      increase_or_maximize_quality(1)
     when 5..9
-      increase_quality(2)
+      increase_or_maximize_quality(2)
     when 0..4
-      increase_quality(3)
+      increase_or_maximize_quality(3)
     else
       make_quality_zero
     end
@@ -67,9 +67,9 @@ class GildedRose
     decrease_days_remaining
 
     if negative_days_remaining?
-      decrease_quality(2)
+      decrease_or_minimize_quality(2)
     else
-      decrease_quality(1)
+      decrease_or_minimize_quality(1)
     end
   end
 
@@ -80,14 +80,14 @@ class GildedRose
     @days_remaining = @days_remaining - 1
   end
 
-  def decrease_quality(change)
+  def decrease_or_minimize_quality(change)
     changed_quality = @quality - change
 
     # Prevent quality from going below MIN_QUALITY of 0
     @quality = [changed_quality, MIN_QUALITY].max
   end
 
-  def increase_quality(change)
+  def increase_or_maximize_quality(change)
     changed_quality = @quality + change
 
     # Prevent quality from going above MAX_QUALITY of 50
