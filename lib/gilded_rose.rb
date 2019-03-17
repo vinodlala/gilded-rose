@@ -58,6 +58,7 @@ class GildedRose
   end
 
   def tick
+    # Aged Brie
     if is_aged_brie?
       tick_aged_brie
       return
@@ -71,27 +72,13 @@ class GildedRose
     # Backstage passes to a TAFKAL80ETC concert
     if is_concert?
       tick_concert
-      # increase_quality(1)
-      # decrease_days_remaining
-      # if @days_remaining < 10
-      #   if @quality < 50
-      #     @quality = @quality + 1
-      #   end
-      # end
-      # if @days_remaining < 5
-      #   if @quality < 50
-      #     @quality = @quality + 1
-      #   end
-      # end
-      # if negative_days_remaining?
-      #   decrease_quality(@quality)
-      # end
       return
     end
 
     # Conjured Mana Cake
     if is_cake?
       decrease_days_remaining
+
       if negative_days_remaining?
         decrease_quality(4)
       else
@@ -116,24 +103,6 @@ class GildedRose
       increase_quality(2)
     else
       increase_quality(1)
-    end
-  end
-
-  def tick_concert_old
-    increase_quality(1)
-    decrease_days_remaining
-    if @days_remaining < 10
-      if @quality < 50
-        @quality = @quality + 1
-      end
-    end
-    if @days_remaining < 5
-      if @quality < 50
-        @quality = @quality + 1
-      end
-    end
-    if negative_days_remaining?
-      decrease_quality(@quality)
     end
   end
 
