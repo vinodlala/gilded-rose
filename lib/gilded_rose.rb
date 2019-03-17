@@ -2,8 +2,15 @@ class GildedRose
   attr_reader :name, :days_remaining, :quality
 
   METHODS_HASH = {
-    "Aged Brie": "tick_aged_brie"
+    "Aged Brie": "tick_aged_brie",
+    "Backstage passes to a TAFKAL80ETC concert": "tick_concert",
+    "Conjured Mana Cake": "tick_cake",
+    "Sulfuras, Hand of Ragnaros": "tick_sulfurus"
   }
+
+  MIN_QUALITY = 0
+
+  MAX_QUALITY = 50
 
   def initialize(name:, days_remaining:, quality:)
     @name = name
@@ -57,7 +64,14 @@ class GildedRose
     end
   end
 
-  def tick
+  def tick_not_as_old
+    method_name = METHODS_HASH[@name.to_sym]
+    if method_name
+      send(method_name)
+      puts "hi"
+      return
+    end
+
     # Aged Brie
     if is_aged_brie?
       tick_aged_brie
@@ -77,13 +91,14 @@ class GildedRose
 
     # Conjured Mana Cake
     if is_cake?
-      decrease_days_remaining
-
-      if negative_days_remaining?
-        decrease_quality(4)
-      else
-        decrease_quality(2)
-      end
+      # decrease_days_remaining
+      #
+      # if negative_days_remaining?
+      #   decrease_quality(4)
+      # else
+      #   decrease_quality(2)
+      # end
+      tick_cake
 
       return
     end
@@ -96,6 +111,24 @@ class GildedRose
     end
   end
 
+  def tick
+    method_name = METHODS_HASH[@name.to_sym]
+
+    if method_name
+      send(method_name)
+      return
+    end
+
+    tick_normal_item
+    # decrease_quality(1)
+    #
+    # decrease_days_remaining
+    #
+    # if negative_days_remaining?
+    #   decrease_quality(1)
+    # end
+  end
+
   def tick_aged_brie
     decrease_days_remaining
 
@@ -103,6 +136,16 @@ class GildedRose
       increase_quality(2)
     else
       increase_quality(1)
+    end
+  end
+
+  def tick_cake
+    decrease_days_remaining
+
+    if negative_days_remaining?
+      decrease_quality(4)
+    else
+      decrease_quality(2)
     end
   end
 
@@ -121,9 +164,23 @@ class GildedRose
     end
   end
 
+  def tick_normal_item
+    decrease_quality(1)
+
+    decrease_days_remaining
+
+    if negative_days_remaining?
+      decrease_quality(1)
+    end
+  end
+
+  def tick_sulfurus
+  end
+
   def decrease_quality(change)
     changed_quality = @quality - change
-    @quality = [changed_quality, 0].max
+    # @quality = [changed_quality, 0].max
+    @quality = [changed_quality, MIN_QUALITY].max
   end
 
   def decrease_days_remaining
@@ -132,7 +189,8 @@ class GildedRose
 
   def increase_quality(change)
     changed_quality = @quality + change
-    @quality = [changed_quality, 50].min
+    # @quality = [changed_quality, 50].min
+    @quality = [changed_quality, MAX_QUALITY].min
   end
 
   def negative_days_remaining?
