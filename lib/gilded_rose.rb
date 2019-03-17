@@ -1,6 +1,10 @@
 class GildedRose
   attr_reader :name, :days_remaining, :quality
 
+  METHODS_HASH = {
+    "Aged Brie": "tick_aged_brie"
+  }
+
   def initialize(name:, days_remaining:, quality:)
     @name = name
     @days_remaining = days_remaining
@@ -115,7 +119,7 @@ class GildedRose
     end
   end
 
-  def tick_concert
+  def tick_concert_old
     increase_quality(1)
     decrease_days_remaining
     if @days_remaining < 10
@@ -129,6 +133,21 @@ class GildedRose
       end
     end
     if negative_days_remaining?
+      decrease_quality(@quality)
+    end
+  end
+
+  def tick_concert
+    decrease_days_remaining
+
+    case days_remaining
+    when 10..999
+      increase_quality(1)
+    when 5..9
+      increase_quality(2)
+    when 0..4
+      increase_quality(3)
+    else
       decrease_quality(@quality)
     end
   end
