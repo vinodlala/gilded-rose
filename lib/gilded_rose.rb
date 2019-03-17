@@ -7,7 +7,7 @@ class GildedRose
     @quality = quality
   end
 
-  def tick
+  def tick_old
     if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
       if @quality > 0
         if @name != "Sulfuras, Hand of Ragnaros"
@@ -51,5 +51,119 @@ class GildedRose
         end
       end
     end
+  end
+
+  def tick
+    if is_aged_brie?
+      tick_aged_brie
+      return
+    end
+
+    # Sulfuras, Hand of Ragnaros
+    if is_sulfurus?
+      return
+    end
+
+    # Backstage passes to a TAFKAL80ETC concert
+    if is_concert?
+      tick_concert
+      # increase_quality(1)
+      # decrease_days_remaining
+      # if @days_remaining < 10
+      #   if @quality < 50
+      #     @quality = @quality + 1
+      #   end
+      # end
+      # if @days_remaining < 5
+      #   if @quality < 50
+      #     @quality = @quality + 1
+      #   end
+      # end
+      # if negative_days_remaining?
+      #   decrease_quality(@quality)
+      # end
+      return
+    end
+
+    # Conjured Mana Cake
+    if is_cake?
+      decrease_days_remaining
+      if negative_days_remaining?
+        decrease_quality(4)
+      else
+        decrease_quality(2)
+      end
+
+      return
+    end
+
+    # Normal Item
+    decrease_quality(1)
+    decrease_days_remaining
+    if negative_days_remaining?
+      decrease_quality(1)
+    end
+  end
+
+  def tick_aged_brie
+    decrease_days_remaining
+
+    if negative_days_remaining?
+      increase_quality(2)
+    else
+      increase_quality(1)
+    end
+  end
+
+  def tick_concert
+    increase_quality(1)
+    decrease_days_remaining
+    if @days_remaining < 10
+      if @quality < 50
+        @quality = @quality + 1
+      end
+    end
+    if @days_remaining < 5
+      if @quality < 50
+        @quality = @quality + 1
+      end
+    end
+    if negative_days_remaining?
+      decrease_quality(@quality)
+    end
+  end
+
+  def decrease_quality(change)
+    changed_quality = @quality - change
+    @quality = [changed_quality, 0].max
+  end
+
+  def decrease_days_remaining
+    @days_remaining = @days_remaining - 1
+  end
+
+  def increase_quality(change)
+    changed_quality = @quality + change
+    @quality = [changed_quality, 50].min
+  end
+
+  def negative_days_remaining?
+    @days_remaining < 0
+  end
+
+  def is_aged_brie?
+    @name == "Aged Brie"
+  end
+
+  def is_concert?
+    @name == "Backstage passes to a TAFKAL80ETC concert"
+  end
+
+  def is_cake?
+    @name == "Conjured Mana Cake"
+  end
+
+  def is_sulfurus?
+    @name == "Sulfuras, Hand of Ragnaros"
   end
 end
