@@ -76,7 +76,7 @@ RSpec.describe GildedRose do
     context 'before sell date' do
       let(:days_remaining) { 5 }
 
-      context 'with moderate quailty' do
+      context 'with moderate quality' do
         let(:quality) { 10 }
 
         it 'should have one less day remaining' do
@@ -420,12 +420,12 @@ RSpec.describe GildedRose do
       context 'with moderate quality' do
         let(:quality) { 10 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(5).to(4)
         end
 
-        xit 'should diminish in quality by 2' do
+        it 'should diminish in quality by 2' do
           expect { gilded_rose.tick }.to change { gilded_rose.quality }
             .from(10).to(8)
         end
@@ -434,12 +434,12 @@ RSpec.describe GildedRose do
       context 'with no quality' do
         let(:quality) { 0 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(5).to(4)
         end
 
-        xit 'should remain at no quality' do
+        it 'should remain at no quality' do
           expect { gilded_rose.tick }.to_not change { gilded_rose.quality }
         end
       end
@@ -451,12 +451,12 @@ RSpec.describe GildedRose do
       context 'with moderate quality' do
         let(:quality) { 10 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(0).to(-1)
         end
 
-        xit 'should diminish in quality by 4' do
+        it 'should diminish in quality by 4' do
           expect { gilded_rose.tick }.to change { gilded_rose.quality }
             .from(10).to(6)
         end
@@ -465,12 +465,12 @@ RSpec.describe GildedRose do
       context 'with no quality' do
         let(:quality) { 0 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(0).to(-1)
         end
 
-        xit 'should remain at no quality' do
+        it 'should remain at no quality' do
           expect { gilded_rose.tick }.to_not change { gilded_rose.quality }
         end
       end
@@ -482,12 +482,12 @@ RSpec.describe GildedRose do
       context 'with moderate quality' do
         let(:quality) { 10 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(-10).to(-11)
         end
 
-        xit 'should diminish in quality by 4' do
+        it 'should diminish in quality by 4' do
           expect { gilded_rose.tick }.to change { gilded_rose.quality }
             .from(10).to(6)
         end
@@ -496,12 +496,12 @@ RSpec.describe GildedRose do
       context 'with no quality' do
         let(:quality) { 0 }
 
-        xit 'should have one less day remaining' do
+        it 'should have one less day remaining' do
           expect { gilded_rose.tick }.to change { gilded_rose.days_remaining }
             .from(-10).to(-11)
         end
 
-        xit 'should remain at no quality' do
+        it 'should remain at no quality' do
           expect { gilded_rose.tick }.to_not change { gilded_rose.quality }
         end
       end
